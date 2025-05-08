@@ -1,0 +1,13 @@
+server:
+  servlet:
+    context-path: /api/v1
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: fourcut
+  config:
+    import: "optional:classpath:application-secret.yml"
+
+cookie:
+  secure: true

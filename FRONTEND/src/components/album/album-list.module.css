@@ -1,0 +1,108 @@
+/* components/album/album-list.module.css */
+
+.albumListWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 50px; /* 앨범끼리 간격 */
+  margin: 60px 0px 150px 0px; /*상우하좌*/
+}
+
+.albumItem {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 기본은 가운데 정렬 */
+  gap: 2rem;
+}
+
+.albumContent {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  gap: 20px;
+}
+
+.leftImage {
+  flex-direction: row; /* 기본: 이미지 왼쪽, 텍스트 오른쪽 */
+  margin-left: 20px;
+}
+
+.rightImage {
+  flex-direction: row-reverse; /* 반대: 이미지 오른쪽, 텍스트 왼쪽 */
+  margin-right: 20px;
+}
+
+.constellationImage {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* 반응형 추가 */
+@media (max-width: 412px) {
+  .constellationImage {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+@media (max-width: 300px) {
+  .constellationImage {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+.albumInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* 남은 영역 차지 */
+}
+
+.alignLeft {
+  align-items: flex-start; /* 왼쪽 정렬 */
+  text-align: left;
+}
+
+.alignRight {
+  align-items: flex-end; /* 오른쪽 정렬 */
+  text-align: right;
+}
+
+.albumName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: "SEJONG";
+}
+
+.separator {
+  height: 1px;
+  background-color: #fffaf862;
+  margin: 0.5rem 0;
+  align-self: stretch;
+}
+
+.albumDate {
+  font-size: 1rem;
+  color: #fffaf8c5;
+  font-family: "SEJONG";
+}
+
+.loading-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px; /* 필요에 따라 크기 조절 */
+  text-align: center;
+}
+
+.error-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px; /* 필요에 따라 크기 조절 */
+  text-align: center;
+}

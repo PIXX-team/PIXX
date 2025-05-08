@@ -1,0 +1,58 @@
+:root {
+  --navbar-height: 5rem;
+}
+
+/* 기존 html, body 스타일을 수정합니다 */
+html,
+body {
+  width: 100%; /*부모가 설정한 폭 100% 따르기*/
+  height: 100%;
+  margin: 0; /* 화면 중앙에 배치하기 위해 추가 */
+  overflow-x: hidden;
+}
+
+body {
+  /* 전체 배경을 검정색으로 변경합니다 */
+  background: #000000;
+  color: #fffaf8;
+  font-family: "SUITE", sans-serif;
+}
+/* app-container*/
+.app-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  max-width: clamp(344px, 100vw, 412px);
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--night_sky, linear-gradient(180deg, #2a292f 0%, #21203e 2.85%, #231b4b 40.69%, #312a53 100%));
+}
+
+.app-container > div:nth-child(3) {
+  flex: 1;
+  min-height: calc(100vh - var(--navbar-height));
+  padding-bottom: var(--navbar-height);
+}
+
+.main-content {
+  flex: 1;
+  min-height: calc(100vh - var(--navbar-height));
+  padding-bottom: var(--navbar-height);
+}
+
+/* 폰트 설정 */
+@font-face {
+  font-family: "SUITE";
+  src: url("/fonts/SUITE/SUITE-Variable.ttf") format("truetype");
+  font-weight: 100 900; /* 100부터 900까지 범위 지원 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SEJONG";
+  src: url("/fonts/SEJONG/SejongGeulggot.ttf") format("truetype");
+  font-weight: 100 900; /* 100부터 900까지 범위 지원 */
+  font-style: normal;
+}

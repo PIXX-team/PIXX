@@ -1,0 +1,36 @@
+{
+  "root": true, // 이 디렉토리를 ESLint 루트로 설정
+
+  "parser": "@typescript-eslint/parser", // TypeScript용 ESLint 파서
+
+  "plugins": [
+    "@typescript-eslint", // 타입스크립트 지원
+    "prettier" // Prettier 포맷팅 연동
+  ],
+
+  "parserOptions": {
+    "project": "./tsconfig.json", // tsconfig 연결
+    "createDefaultProgram": true
+  },
+
+  "env": {
+    "browser": true, // 브라우저 글로벌 객체(window 등) 허용
+    "node": true, // Node.js 글로벌 객체 허용
+    "es6": true // ES6 문법 지원
+  },
+
+  "ignorePatterns": ["node_modules/"], // node_modules 폴더 ESLint 검사 제외
+
+  "extends": [
+    "next/core-web-vitals", // Next.js 최적화 + Web Vitals 규칙
+    "plugin:@typescript-eslint/recommended", // 타입스크립트 추천 규칙
+    "plugin:prettier/recommended", // Prettier와 충돌 제거 + 포맷 에러 잡기
+    "prettier" // (추가로) ESLint와 Prettier 충돌 완벽 방지
+  ],
+
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off", // any 타입 허용
+    "react/react-in-jsx-scope": "off", // React 17+부터 import 없이 JSX 사용 가능
+    "prettier/prettier": ["error", { "endOfLine": "auto" }] // OS별 줄바꿈 자동처리
+  }
+}
