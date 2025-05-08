@@ -4,7 +4,6 @@
   max-width: 412px; /* 모바일 앱 화면 너비와 비슷하게 설정 */
   margin: 0 auto; /* 화면 중앙에 배치 */
   min-height: 100vh;
-  background-color: #211e2f; /* 이미지의 배경색과 맞추기 */
   overflow: hidden; /* 내용이 넘치지 않도록 */
 }
 

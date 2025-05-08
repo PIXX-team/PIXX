@@ -76,7 +76,7 @@ export default function FeedDetail({ feedId }: FeedDetailProps) {
     <div>
       <div className={styles.topBar}>
         <button onClick={() => router.back()}>
-          <Image src="/icons/icon-back" alt="뒤로가기" width={30} height={30} />
+          <Image src="/icons/icon-back.png" alt="뒤로가기" width={28} height={28} />
         </button>
         <div className={styles.iconButtons}>
           <button onClick={() => setIsInfoModalOpen(true)}>
@@ -84,17 +84,17 @@ export default function FeedDetail({ feedId }: FeedDetailProps) {
           </button>
           <button onClick={() => setIsFavorite(!isFavorite)}>
             <Image
-              src={isFavorite ? "/icons/icon-like.png" : "/icons/icon-unlike.png"}
+              src={isFavorite ? "/icons/icon-like.png" : "/icons/icon-unlike-white.png"}
               alt="즐겨찾기"
               width={30}
-              height={30}
+              height={27}
             />
           </button>
           <button>
-            <Image src="/icons/icon-download.png" alt="다운로드" width={30} height={30} />
+            <Image src="/icons/icon-download.png" alt="다운로드" width={26} height={26} />
           </button>
           <button>
-            <Image src="/icons/icon-send.png" alt="공유" width={30} height={30} />
+            <Image src="/icons/icon-send.png" alt="공유" width={26} height={26} />
           </button>
         </div>
       </div>
@@ -103,12 +103,20 @@ export default function FeedDetail({ feedId }: FeedDetailProps) {
         {currentFile.imageType === "VIDEO" ? (
           <video src={currentFile.imageUrl} controls className={styles.mainMediaContent} />
         ) : (
-          <Image src={currentFile.imageUrl} alt="피드 미디어" className={styles.mainMediaContent} fill />
+          <Image
+            src={currentFile.imageUrl}
+            alt="피드 미디어"
+            className={styles.mainMediaContent}
+            width={0}
+            height={0}
+            sizes="100vw"
+          />
         )}
       </div>
 
       {/* 하단 미리보기 */}
       <div className={styles.thumbnailWrapper}>
+        <div className={styles.gradientOverlayLeft}></div> {/* 왼쪽 그라데이션 */}
         <button className={styles.arrowButton} onClick={scrollThumbnailLeft}>
           <Image src="/icons/icon-back-gray.png" alt="왼쪽으로" width={20} height={20} />
         </button>
@@ -130,6 +138,7 @@ export default function FeedDetail({ feedId }: FeedDetailProps) {
         <button className={styles.arrowButton} onClick={scrollThumbnailRight}>
           <Image src="/icons/icon-next-gray.png" alt="오른쪽으로" width={20} height={20} />
         </button>
+        <div className={styles.gradientOverlayRight}></div> {/* 오른쪽 그라데이션 */}
       </div>
 
       {/* FeedInfoModal 연결 */}

@@ -19,17 +19,17 @@
   align-items: center;
   width: 100%;
   max-width: 800px;
-  gap: 20px;
+  gap: 40px;
 }
 
 .leftImage {
   flex-direction: row; /* 기본: 이미지 왼쪽, 텍스트 오른쪽 */
-  margin-left: 20px;
+  margin-left: 30px;
 }
 
 .rightImage {
   flex-direction: row-reverse; /* 반대: 이미지 오른쪽, 텍스트 왼쪽 */
-  margin-right: 20px;
+  margin-right: 30px;
 }
 
 .constellationImage {

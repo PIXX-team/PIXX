@@ -15,7 +15,7 @@ const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
   headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJuaWNrbmFtZSI6InR0IiwidXNlcl9pZCI6MSwia2FrYW9faWQiOjEsInVzZXJfZW1haWwiOiJ0dCIsImlhdCI6MTc0NjY4NDQ5NSwiZXhwIjoxNzQ2Njg4MDk1fQ.GhNIpgCS_A97PJaejLxjvRmxQbTvO1cF0BCW0_8LBMI`,
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2VtYWlsIjoidHQiLCJrYWthb19pZCI6MSwidXNlcl9pZCI6MSwibmlja25hbWUiOiJ0dCIsImlhdCI6MTc0NjcxODc0NywiZXhwIjoxNzQ2NzIyMzQ3fQ.4o24IXi0FEN-ihrT9ejkP7Sam9V6RaCm8WjjGMZwX-U`,
   },
 });
 
