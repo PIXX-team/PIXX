@@ -2,12 +2,15 @@ package com.ssafy.fourcut.domain.image.service;
 
 import com.amazonaws.services.cloudfront.CloudFrontUrlSigner;
 import com.amazonaws.services.cloudfront.util.SignerUtils;
+import com.ssafy.fourcut.domain.image.controller.StoreController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
@@ -22,12 +25,14 @@ public class CloudFrontService {
     @Value("${cloudfront.privateKeyPath}")
     private String privateKeyPath;
 
+    private static final Logger log = LoggerFactory.getLogger(CloudFrontService.class);
+
     public String generateSignedCloudFrontUrl(String s3Key) {
         try {
-            System.out.println("s3Key::: " + s3Key);
-            System.out.println(cloudFrontDomain);
-            System.out.println(keyPairId);
-            System.out.println(privateKeyPath);
+            log.info("S3_Key : " + s3Key);
+            log.info("cloudFrontDomain : " + cloudFrontDomain);
+            log.info("keyPairId : " + keyPairId);
+            log.info("privateKeyPath : " + privateKeyPath);
 
 //            Date expiration = new Date(System.currentTimeMillis() + (1000 * 60 * 20)); // 20분
             Date expiration = new Date(System.currentTimeMillis() + (1000L * 60 * 60 * 24 * 7 * 7)); // 7주일
