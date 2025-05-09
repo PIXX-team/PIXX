@@ -9,12 +9,18 @@ export default function Logout() {
 
   const handleLogout = async () => {
     try {
-      const response = await api.post("/api/v1/auth/logout");
+      const response = await api.post(
+        "/api/v1/auth/logout",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
 
       if (response.data.status === 200) {
-        document.cookie.split(";").forEach((c) => {
-          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-        });
         router.push("/welcome");
       } else {
         throw new Error(response.data.message || "로그아웃 실패");
