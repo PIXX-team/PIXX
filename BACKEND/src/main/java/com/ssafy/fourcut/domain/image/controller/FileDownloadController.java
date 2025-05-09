@@ -30,7 +30,7 @@ public class FileDownloadController {
                 .orElseThrow(() -> new IllegalArgumentException("해당 imageId가 존재하지 않습니다."));
 
         String s3Key = image.getImageUrl();
-        String signedUrl = cloudFrontService.generateSignedCloudFrontUrl(s3Key);
+        String signedUrl = cloudFrontService.generateSignedCloudFrontUrl(s3Key, "download");
 
         Map<String, String> response = new HashMap<>();
         response.put("signedUrl", signedUrl);

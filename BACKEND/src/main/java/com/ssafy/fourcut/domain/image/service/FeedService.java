@@ -76,7 +76,7 @@ public class FeedService {
                 // Image → URL
                 .map(Image::getImageUrl)
                 // URL → 서명된 CloudFront URL
-                .map(cloudFrontService::generateSignedCloudFrontUrl)
+                .map(url -> cloudFrontService.generateSignedCloudFrontUrl(url, "get"))
                 // 없으면 빈 문자열
                 .orElse("");
 
@@ -98,7 +98,7 @@ public class FeedService {
 
         List<FeedImageResponse> images = feed.getImages().stream()
                 .map(img -> {
-                    String signed = cloudFrontService.generateSignedCloudFrontUrl(img.getImageUrl());
+                    String signed = cloudFrontService.generateSignedCloudFrontUrl(img.getImageUrl(), "get");
                     return new FeedImageResponse(
                             img.getImageId(),
                             signed,

@@ -27,15 +27,19 @@ public class CloudFrontService {
 
     private static final Logger log = LoggerFactory.getLogger(CloudFrontService.class);
 
-    public String generateSignedCloudFrontUrl(String s3Key) {
+    public String generateSignedCloudFrontUrl(String s3Key, String usage) {
         try {
             log.info("S3_Key : " + s3Key);
             log.info("cloudFrontDomain : " + cloudFrontDomain);
             log.info("keyPairId : " + keyPairId);
             log.info("privateKeyPath : " + privateKeyPath);
 
-//            Date expiration = new Date(System.currentTimeMillis() + (1000 * 60 * 20)); // 20분
-            Date expiration = new Date(System.currentTimeMillis() + (1000L * 60 * 60 * 24 * 7 * 7)); // 7주일
+            long time = 1000L * 60 * 5; // 5분
+            if(usage.equals("get")) {
+                time = (1000 * 60 * 30); // 30분
+            }
+
+            Date expiration = new Date(System.currentTimeMillis() + time);
 //            File privateKey = new ClassPathResource(privateKeyPath).getFile(); // 로컬 실험용
             File privateKey = new File(privateKeyPath); // 서버용
 

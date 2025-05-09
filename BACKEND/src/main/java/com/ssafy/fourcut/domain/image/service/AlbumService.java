@@ -131,7 +131,7 @@ public class AlbumService {
                             // Image → URL
                             .map(Image::getImageUrl)
                             // URL → 서명된 CloudFront URL
-                            .map(cloudFrontService::generateSignedCloudFrontUrl)
+                            .map(url -> cloudFrontService.generateSignedCloudFrontUrl(url, "get"))
                             // 없으면 빈 문자열
                             .orElse("");
 
