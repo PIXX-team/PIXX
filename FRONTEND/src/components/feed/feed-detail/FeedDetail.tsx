@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { getFeedDetail } from "@/app/lib/api/feedApi";
 import { FeedDetailResponse } from "@/app/types/feed";
 
+import FeedMainMedia from "./FeedMainMedia";
 import FeedInfoModal from "./FeedInfoModal";
 import Image from "next/image";
 import styles from "./feed-detail.module.css";
@@ -17,95 +18,79 @@ type FeedDetailProps = {
 export default function FeedDetail({ feedId }: FeedDetailProps) {
   const router = useRouter();
 
-  console.log("feedId", feedId);
-
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
+  // API 호출
   const { data, isLoading, isError } = useQuery<FeedDetailResponse>({
     queryKey: ["feedDetail", feedId],
     queryFn: () => getFeedDetail(feedId),
   });
 
+  // 현재 이미지 인덱스 관리
   const [currentIndex, setCurrentIndex] = useState(0);
+  const currentFile = data?.feedList[currentIndex];
+
   const [isFavorite, setIsFavorite] = useState(false);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
   const thumbnailListRef = useRef<HTMLDivElement>(null);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.changedTouches[0].clientX;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    touchEndX.current = e.changedTouches[0].clientX;
-    handleSwipe();
-  };
-
-  const handleSwipe = () => {
-    const distance = touchStartX.current - touchEndX.current;
-    if (distance > 50) {
-      if (data && currentIndex < data.feedList.length - 1) {
-        setCurrentIndex((prev) => prev + 1);
-      }
-    } else if (distance < -50) {
-      if (data && currentIndex > 0) {
-        setCurrentIndex((prev) => prev - 1);
-      }
-    }
-  };
-
-  // 하단 미리보기 좌우 스크롤
+  // 하단 미리보기 좌우 < > 아이콘
   const scrollThumbnailLeft = () => {
-    if (thumbnailListRef.current) {
-      thumbnailListRef.current.scrollBy({ left: -100, behavior: "smooth" });
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
     }
   };
 
   const scrollThumbnailRight = () => {
-    if (thumbnailListRef.current) {
-      thumbnailListRef.current.scrollBy({ left: 100, behavior: "smooth" });
+    if (data && currentIndex < data.feedList.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
   if (isLoading) return <div>로딩 중...</div>;
   if (isError || !data) return <div>피드를 불러오는데 실패했습니다.</div>;
 
-  const currentFile = data.feedList[currentIndex];
-
   return (
     <div>
       <div className={styles.topBar}>
         <button onClick={() => router.back()}>
-          <Image src="/icons/icon-back" alt="뒤로가기" width={30} height={30} />
+          <Image src="/icons/icon-back.png" alt="뒤로가기" width={28} height={28} />
         </button>
         <div className={styles.iconButtons}>
           <button onClick={() => setIsInfoModalOpen(true)}>
-            <Image src="/icons/icon-info.png" alt="상세정보" width={30} height={30} />
+            <Image src="/icons/icon-info.png" alt="상세정보" width={26} height={26} />
           </button>
           <button onClick={() => setIsFavorite(!isFavorite)}>
             <Image
-              src={isFavorite ? "/icons/icon-like.png" : "/icons/icon-unlike.png"}
+              src={isFavorite ? "/icons/icon-like.png" : "/icons/icon-unlike-white.png"}
               alt="즐겨찾기"
-              width={30}
-              height={30}
+              width={24}
+              height={20}
             />
           </button>
           <button>
-            <Image src="/icons/icon-download.png" alt="다운로드" width={30} height={30} />
+            <Image src="/icons/icon-download.png" alt="다운로드" width={22} height={22} />
           </button>
           <button>
-            <Image src="/icons/icon-send.png" alt="공유" width={30} height={30} />
+            <Image src="/icons/icon-send.png" alt="공유" width={22} height={20} />
           </button>
         </div>
       </div>
 
-      <div className={styles.mainMedia} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-        {currentFile.imageType === "VIDEO" ? (
-          <video src={currentFile.imageUrl} controls className={styles.mainMediaContent} />
-        ) : (
-          <Image src={currentFile.imageUrl} alt="피드 미디어" className={styles.mainMediaContent} fill />
-        )}
-      </div>
+      {currentFile && (
+        <FeedMainMedia
+          file={currentFile}
+          onSwipeLeft={() => {
+            if (currentIndex < (data?.feedList.length || 0) - 1) {
+              setCurrentIndex((prev) => prev + 1);
+            }
+          }}
+          onSwipeRight={() => {
+            if (currentIndex > 0) {
+              setCurrentIndex((prev) => prev - 1);
+            }
+          }}
+        />
+      )}
 
       {/* 하단 미리보기 */}
       <div className={styles.thumbnailWrapper}>

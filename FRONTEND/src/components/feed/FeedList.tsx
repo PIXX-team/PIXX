@@ -178,6 +178,8 @@ export default function FeedList() {
                         selectedFeedIds.includes(feed.feedId) ? "/icons/icon-checked.png" : "/icons/icon-unchecked.png"
                       }
                       alt="선택 여부"
+                      width={20}
+                      height={20}
                     />
                   </div>
                 )}
