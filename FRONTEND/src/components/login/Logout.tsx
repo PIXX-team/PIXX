@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import styles from "./logout.module.css";
 
 export default function Logout() {
   const router = useRouter();
@@ -11,10 +12,7 @@ export default function Logout() {
   };
 
   return (
-    <button
-      className="w-full py-2 px-4 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors"
-      onClick={handleLogout}
-    >
+    <button className={styles.logoutButton} onClick={handleLogout}>
       로그아웃
     </button>
   );

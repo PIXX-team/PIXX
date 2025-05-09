@@ -16,21 +16,20 @@ export default function KakaoCallbackPage() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
+        credentials: "include", // 쿠키 수신을 위해 필수
         body: JSON.stringify({ code }),
       })
         .then((response) => {
           if (response.ok) {
-            return response.json(); // 응답 데이터 파싱 추가
+            return response.json();
           } else {
             return response.json().then((data) => {
               throw new Error(data.message || "카카오 로그인 실패");
             });
           }
         })
-        .then((data) => {
-          // 토큰 저장
-          localStorage.setItem("token", data.data.accessToken);
-          // 메인 페이지로 이동
+        .then(() => {
+          // 토큰은 쿠키에 자동으로 저장되므로 별도 처리 필요 없음
           router.push("/main");
         })
         .catch((error) => {
