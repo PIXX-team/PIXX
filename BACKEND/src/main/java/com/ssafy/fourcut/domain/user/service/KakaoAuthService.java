@@ -133,7 +133,7 @@ public class KakaoAuthService {
     // 카카오 id 로그인
     public TokenDto loginWithKakaoId(Long kakaoId) {
         User user = userRepository.findByKakaoId(kakaoId)
-                .orElseThrow(() -> new RuntimeException("등록된 사용자가 없습니다: kakaoId=" + kakaoId));
+                .orElseThrow(() -> new UserNotFoundException(kakaoId));
 
         Map<String,Object> claims = Map.of(
                 "user_id",    user.getUserId(),
