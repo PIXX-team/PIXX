@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import styles from "./delete-account.module.css";
+import api from "@/app/lib/api/axios";
 
 export default function DeleteAccount() {
   const router = useRouter();
@@ -9,28 +10,26 @@ export default function DeleteAccount() {
   const handleDeleteAccount = async () => {
     if (window.confirm("정말로 회원탈퇴 하시겠습니까?")) {
       try {
-        const response = await fetch("/api/v1/auth/withdraw", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          credentials: "include", // 쿠키 전송을 위해 필수
-        });
+        const response = await api.post(
+          "/api/v1/auth/withdraw",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
 
-        if (response.ok) {
-          // 회원탈퇴 성공 시 쿠키 삭제
-          document.cookie.split(";").forEach((c) => {
-            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-          });
+        if (response.data.status === 200) {
           router.push("/welcome");
         } else {
-          const data = await response.json();
-          throw new Error(data.message || "회원탈퇴 실패");
+          throw new Error(response.data.message || "회원탈퇴 실패");
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("회원탈퇴 요청 실패:", error);
-        alert("회원탈퇴 처리 중 오류가 발생했습니다.");
+        const errorMessage = error.response?.data?.message || "회원탈퇴 처리 중 오류가 발생했습니다.";
+        alert(errorMessage);
       }
     }
   };
