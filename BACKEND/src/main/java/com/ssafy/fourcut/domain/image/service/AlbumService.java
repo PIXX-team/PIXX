@@ -3,6 +3,7 @@ package com.ssafy.fourcut.domain.image.service;
 
 import com.ssafy.fourcut.domain.image.dto.*;
 import com.ssafy.fourcut.domain.image.entity.*;
+import com.ssafy.fourcut.domain.image.entity.enums.ImageType;
 import com.ssafy.fourcut.domain.image.repository.AlbumRepository;
 import com.ssafy.fourcut.domain.image.repository.FeedRepository;
 import com.ssafy.fourcut.domain.user.entity.User;
@@ -122,16 +123,21 @@ public class AlbumService {
         // 5) Feed → FeedItemResponse 매핑
         List<FeedItemResponse> feedItems = feedPage.stream()
                 .map(f -> {
-                    String rawKey = f.getImages().stream()
-                            .findFirst()
+                    String thumbUrl = f.getImages().stream()
+                            // IMAGE 타입만 필터
+                            .filter(img -> ImageType.IMAGE.equals(img.getImageType()))
+                            // ID 기준 최소값(Image 객체) 선택
+                            .min(Comparator.comparing(Image::getImageId))
+                            // Image → URL
                             .map(Image::getImageUrl)
+                            // URL → 서명된 CloudFront URL
+                            .map(cloudFrontService::generateSignedCloudFrontUrl)
+                            // 없으면 빈 문자열
                             .orElse("");
-                    String thumb = rawKey.isEmpty()
-                            ? ""
-                            : cloudFrontService.generateSignedCloudFrontUrl(rawKey);
+
                     return new FeedItemResponse(
                             f.getFeedId(),
-                            thumb,
+                            thumbUrl,
                             f.getFeedFavorite()
                     );
                 })
