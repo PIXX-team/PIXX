@@ -2,30 +2,22 @@
 
 import { useRouter } from "next/navigation";
 import styles from "./logout.module.css";
+import api from "@/app/lib/api/axios";
 
 export default function Logout() {
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/v1/auth/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-      });
+      const response = await api.post("/api/v1/auth/logout");
 
-      if (response.ok) {
-        // 브라우저의 모든 쿠키 삭제
+      if (response.data.status === 200) {
         document.cookie.split(";").forEach((c) => {
           document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         });
         router.push("/welcome");
       } else {
-        const data = await response.json();
-        throw new Error(data.message || "로그아웃 실패");
+        throw new Error(response.data.message || "로그아웃 실패");
       }
     } catch (error) {
       console.error("로그아웃 요청 실패:", error);
