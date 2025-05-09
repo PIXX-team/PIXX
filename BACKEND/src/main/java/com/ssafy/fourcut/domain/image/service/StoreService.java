@@ -16,13 +16,12 @@ import com.ssafy.fourcut.domain.user.repository.UserRepository;
 import com.ssafy.fourcut.global.s3.S3Uploader;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +32,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StoreService {
@@ -43,8 +43,6 @@ public class StoreService {
     private final BrandRepository brandRepository;
     private final StoreRepository storeRepository;
     private final S3Uploader s3Uploader;
-
-    private static final Logger log = LoggerFactory.getLogger(StoreService.class);
 
     /*
      * feed 테이블을 새로 만든다.

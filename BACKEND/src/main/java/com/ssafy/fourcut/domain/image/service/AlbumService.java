@@ -168,6 +168,7 @@ public class AlbumService {
                         .user(user)
                         .createdAt(LocalDateTime.now())
                         .defaultAlbum(false)
+                        .favoriteAlbum(false)
                         .build()
         );
 
