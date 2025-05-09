@@ -15,11 +15,11 @@ services:
     - NODE_ENV=production
     - PORT=${NEXTJS_MASTER_CONTAINER_PORT}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
       interval: 30s # 검사 간 간격
       timeout: 30s # 검사 최대 실행 시간
       retries: 3 # 실패 시 재시도 횟수 (모두 실패 시 unhealthy)
-      start_period: 10s # 컨테이너 시작 후 검사 시작까지 대기 시간
+      start_period: 30s # 컨테이너 시작 후 검사 시작까지 대기 시간
 
   backend:
     # Dockerfile로 백엔드 프로젝트를 이미지로 빌드
