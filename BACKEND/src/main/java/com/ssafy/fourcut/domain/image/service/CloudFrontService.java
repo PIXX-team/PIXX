@@ -4,14 +4,14 @@ import com.amazonaws.services.cloudfront.CloudFrontUrlSigner;
 import com.amazonaws.services.cloudfront.util.SignerUtils;
 import com.ssafy.fourcut.domain.image.controller.StoreController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CloudFrontService {
@@ -24,8 +24,6 @@ public class CloudFrontService {
 
     @Value("${cloudfront.privateKeyPath}")
     private String privateKeyPath;
-
-    private static final Logger log = LoggerFactory.getLogger(CloudFrontService.class);
 
     public String generateSignedCloudFrontUrl(String s3Key, String usage) {
         try {
@@ -40,8 +38,8 @@ public class CloudFrontService {
             }
 
             Date expiration = new Date(System.currentTimeMillis() + time);
-//            File privateKey = new ClassPathResource(privateKeyPath).getFile(); // 로컬 실험용
-            File privateKey = new File(privateKeyPath); // 서버용
+            File privateKey = new ClassPathResource(privateKeyPath).getFile(); // 로컬 실험용
+//            File privateKey = new File(privateKeyPath); // 서버용
 
             return CloudFrontUrlSigner.getSignedURLWithCannedPolicy(
                     SignerUtils.Protocol.https,

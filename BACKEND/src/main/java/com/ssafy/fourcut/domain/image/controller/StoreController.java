@@ -4,28 +4,33 @@ import com.ssafy.fourcut.domain.image.dto.FileUploadRequestDto;
 import com.ssafy.fourcut.domain.image.dto.QRUploadRequestDto;
 import com.ssafy.fourcut.domain.image.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.security.Principal;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/photos/upload")
 @RequiredArgsConstructor
 public class StoreController {
 
     private final StoreService storeService;
-    private static final Logger log = LoggerFactory.getLogger(StoreController.class);
 
     /*
      * QR 업로드
      */
     @PostMapping("/qr")
-    public void uploadQr(@RequestBody QRUploadRequestDto request) {
+    public void uploadQr(
+            Principal principal,
+            @RequestBody QRUploadRequestDto request) {
         log.info("/api/v1/photos/upload/qr");
         log.info("uploadQr request - userId: {}, pageUrl: {}", request.getUserId(), request.getPageUrl());
+        log.info("userId : " + principal.getName());
+
+        // userId 넣기
+        request.setUserId(Integer.parseInt(principal.getName()));
 
         // 새로운 feed 생성
         int feedId = storeService.createFeed(request.getUserId());
@@ -40,9 +45,15 @@ public class StoreController {
      */
     @PostMapping("/file")
     public void uploadFile(
-            @RequestPart("dto") FileUploadRequestDto request,
+            Principal principal,
             @RequestPart("files") List<MultipartFile> files) {
         log.info("/api/v1/photos/upload/file");
+        log.info("userId : " + principal.getName());
+
+        FileUploadRequestDto request = new FileUploadRequestDto();
+
+        // userId 넣기
+        request.setUserId(Integer.parseInt(principal.getName()));
 
         // 새로운 feed 생성
         int feedId = storeService.createFeed(request.getUserId());
