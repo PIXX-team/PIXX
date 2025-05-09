@@ -20,7 +20,8 @@ public class CorsConfig {
                 "http://localhost:8081",
                 "https://film-moa.com",
                 "https://www.film-moa.com",
-                "https://k12b208p.ssafy.io"
+                "https://k12b208p.ssafy.io",
+                "https://dev.film-moa.com"
         ));
         cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
