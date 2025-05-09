@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StoreRequestDto {
+public class FileUploadRequestDto {
     private int userId;
     private int feedId;
-    private String pageUrl; // QR 찍은 메인 URL
 }
