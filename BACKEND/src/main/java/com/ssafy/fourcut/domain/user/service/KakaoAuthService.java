@@ -63,8 +63,19 @@ public class KakaoAuthService {
                             .albumMemo("")
                             .createdAt(LocalDateTime.now())
                             .defaultAlbum(true)
+                            .favoriteAlbum(false)
                             .build();
                     albumRepository.save(defaultAlbum);
+
+                    Album favoriteAlbum = Album.builder()
+                            .user(newUser)
+                            .albumName("즐겨찾기")
+                            .albumMemo("")
+                            .createdAt(LocalDateTime.now())
+                            .defaultAlbum(false)
+                            .favoriteAlbum(true)
+                            .build();
+                    albumRepository.save(favoriteAlbum);
 
                     return newUser;
                 });

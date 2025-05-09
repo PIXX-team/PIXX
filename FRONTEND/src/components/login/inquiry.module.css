@@ -1,0 +1,16 @@
+.inquiryButton {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  color: #333;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.inquiryButton:hover {
+  background-color: #f8f8f8;
+}

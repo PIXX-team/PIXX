@@ -4,6 +4,7 @@ package com.ssafy.fourcut.domain.image.service;
 import com.amazonaws.services.cloudfront.model.EntityNotFoundException;
 import com.ssafy.fourcut.domain.image.dto.*;
 import com.ssafy.fourcut.domain.image.entity.*;
+import com.ssafy.fourcut.domain.image.entity.enums.ImageType;
 import com.ssafy.fourcut.domain.image.repository.AlbumRepository;
 import com.ssafy.fourcut.domain.image.repository.BrandRepository;
 import com.ssafy.fourcut.domain.image.repository.FeedRepository;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Locale.filter;
 
 @Service
 @RequiredArgsConstructor
@@ -65,16 +68,21 @@ public class FeedService {
 
     /** Feed → FeedItemResponse 변환 공통 */
     private FeedItemResponse toItem(Feed feed) {
-        String rawKey = feed.getImages().stream()
-                .findFirst()
+        String thumbUrl = feed.getImages().stream()
+                // IMAGE 타입만 필터
+                .filter(img -> ImageType.IMAGE.equals(img.getImageType()))
+                // ID 기준 최소값(Image 객체) 선택
+                .min(Comparator.comparing(Image::getImageId))
+                // Image → URL
                 .map(Image::getImageUrl)
+                // URL → 서명된 CloudFront URL
+                .map(cloudFrontService::generateSignedCloudFrontUrl)
+                // 없으면 빈 문자열
                 .orElse("");
-        String thumb = rawKey.isEmpty()
-                ? ""
-                : cloudFrontService.generateSignedCloudFrontUrl(rawKey);
+
         return new FeedItemResponse(
                 feed.getFeedId(),
-                thumb,
+                thumbUrl,
                 feed.getFeedFavorite()
         );
     }
